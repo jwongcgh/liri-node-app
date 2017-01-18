@@ -1,0 +1,21 @@
+{
+  "name": "liri-hw-test",
+  "version": "1.0.0",
+  "description": "liri package require",
+  "main": "keys.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "twitter",
+    "spotify",
+    "request"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.79.0",
+    "spotify": "^0.3.0",
+    "twitter": "^1.7.0"
+  }
+}
