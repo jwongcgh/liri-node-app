@@ -58,7 +58,7 @@ function myTweets() {
 		// tweets search set to specific twitter user screen name
 		screen_name: 'jwongc',
 		// limits max tweets retrieved to 20
-		count: 20	
+		count: 2	
 	};
 
 	// run tweeter module passing search parameter defined above in variable params
@@ -74,11 +74,30 @@ function myTweets() {
     			console.log("===-------------------------------------------------===");
     			console.log("my " + tweets.length + " most recent tweets");
     			console.log("===-------------------------------------------------===");
+
+    			// writes a separator/title line on external log file before data
+    			fs.appendFile("log.txt", "\n\n===- My Tweets -===", function(err) {
+  					if (err) {
+    					console.log(err);
+  					}
+  				});
+
+    			// display tweets selected info
     			for (var i=0; i<tweets.length ; i++) {
 					console.log("@ " + (i + 1) + " @");	
     				console.log("Added on: " + tweets[i].created_at); 
 					console.log("Tweet: " + tweets[i].text);
 					console.log("-------------------------------------------------------");
+
+					// writing data response on external log text file
+					var logIt = "\n\n" + (i + 1) + " Added on: " + tweets[i].created_at + "," +
+								"\n  Tweet   : " + tweets[i].text + ",";
+					fs.appendFile("log.txt", logIt, function(err) {
+  						if (err) {
+    						console.log(err);
+  						}
+  					});
+
   				}	// end for loop
     			console.log("end of tweets");
     			console.log("===-------------------------------------------------===");
@@ -109,6 +128,15 @@ function spotifyThisSong () {
     		console.log("===-------------------------------------------------===");
     		console.log("spotify this song: " + title);
     		console.log("===-------------------------------------------------===");
+
+    		// writes a separator/title line on external log file before data
+    		fs.appendFile("log.txt", "\n\n===- Spotified Song -===", function(err) {
+  					if (err) {
+    					console.log(err);
+  					}
+  				});
+
+    		// display pertinent result searches
     		for (var i=0; i<data.tracks.items.length ; i++) {
     			// verify that song title matches on spotify returned data
     			if (data.tracks.items[i].name.toLowerCase() == title.toLowerCase()) {
@@ -119,6 +147,17 @@ function spotifyThisSong () {
 					console.log("Preview Link: " + data.tracks.items[i].preview_url);
 					console.log("Album: " + data.tracks.items[i].album.name);
     				console.log("-------------------------------------------------------");
+
+    				// appending/writing data response on external log text file
+    				var logIt = "\n\n" + match + " Artist(s): " + data.tracks.items[i].artists[0].name + "," +
+    							"\n  Song Name   : " + data.tracks.items[i].name + "," +
+    							"\n  Preview Link: " + data.tracks.items[i].preview_url + "," +
+    							"\n  Album   : " + data.tracks.items[i].album.name + ",";
+					fs.appendFile("log.txt", logIt, function(err) {
+  						if (err) {
+    						console.log(err);
+  						}
+  					});
     			} 
     		}	// end for loop
     		if (match == 0) {
@@ -166,6 +205,24 @@ function movieThis() {
 				console.log("Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
 				console.log("Rotten Tomatoes URL: " + JSON.parse(body).tomatoURL);
 				console.log("===-------------------------------------------------===");
+
+				// appending/writing data response on external log text file
+				var logIt = "\n\n===- Movie Search -===" +
+							"\n\n  Title: " + JSON.parse(body).Title + "," +
+							"\n  Year: " + JSON.parse(body).Year + "," +
+							"\n  Rated: " + JSON.parse(body).Rated + "," +
+							"\n  Country: " + JSON.parse(body).Country + "," +
+    						"\n  Language: " + JSON.parse(body).Language + "," +
+    						"\n  Plot: " + JSON.parse(body).Plot + "," +
+    						"\n  Actors: " + JSON.parse(body).Actors + "," +
+    						"\n  Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating + "," +
+    						"\n  Rotten Tomatoes URL: " + JSON.parse(body).tomatoURL + "," +
+    						"\n\n===----------------===" + "\n";
+				fs.appendFile("log.txt", logIt, function(err) {
+  					if (err) {
+    					console.log(err);
+  					}
+  				});
 			} // end movie undefined check
 		}
 	});	// end request module
@@ -178,22 +235,33 @@ function movieThis() {
 function doWhatItSays () {
 	// run read/write module. Reads data from text file
 	fs.readFile("random.txt", "utf-8", function(error, data) {
-		console.log(data);
 		// splitting data array
 		var dataArr = data.split(",");
-		console.log(dataArr);
-		console.log(dataArr.length);
+		console.log("dataArr: " + dataArr);
+		console.log("array length: " + dataArr.length);
+
 		// selecting array pair (aka key-value, aka choice: title)
-		for (var i=0; i<dataArr.length; i+=2) {	
+		do {
+		// if (dataArr.length !== 0) {	
 			// choice is the command to be executed: movie-this, spotify-this-song or my-tweets
-			choice = dataArr[i].trim();
-			console.log("choice: " + choice);
-			// title is the movie or song to be searched
-			title = dataArr[i+1].trim();
-			console.log("title: " + title);
+					
+					choice = dataArr[0].trim();
+					dataArr.splice(0,1);
+					console.log("choice: " + choice);
+				
+					if (choice !== "my-tweets") {
+						// title is the movie or song to be searched
+						title = dataArr[0].trim();
+						dataArr.splice(0,1);
+						console.log("title: " + title);
+					}
+			
 			// calls relevant function according to command
 			options();
-			// var pauseGame = setTimeout(options, 2000);
-		}
-	});
+		} while (dataArr.length > 0);
+
+	
+	});	// end fs module
 }
+
+
