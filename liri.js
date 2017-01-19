@@ -36,9 +36,9 @@ function options() {
 	} else if (choice == "do-what-it-says") {
 		doWhatItSays();
 	} else {
-		console.log("not a choice available")
+		console.log("not a choice available");
 	}
-}	// end options
+} // end options
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // node liri.js my-tweets @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -58,8 +58,8 @@ function myTweets() {
 		// tweets search set to specific twitter user screen name
 		screen_name: 'jwongc',
 		// limits max tweets retrieved to 20
-		count: 2	
-	};
+		count: 2
+	}
 
 	// run tweeter module passing search parameter defined above in variable params
 	client.get('statuses/user_timeline', params, function(error, tweets, response) {
@@ -76,7 +76,7 @@ function myTweets() {
     			console.log("===-------------------------------------------------===");
 
     			// displays/appends a separator/title line on external log.txt file. Formatting purposes
-    			var logSearchTitle = "\n\n===- My Tweets -===" + 
+    			var logSearchTitle = "\n\n===- My Tweets -===" +
     								 "\n" + "Data retrieved on: " + new Date();
     			fs.appendFile("log.txt", logSearchTitle, function(err) {
   					if (err) {
@@ -88,8 +88,8 @@ function myTweets() {
     			for (var i=0; i<tweets.length ; i++) {
 
     				// displays data on terminal/bash window
-					console.log("@ " + (i + 1) + " @");	
-    				console.log("Added on: " + tweets[i].created_at); 
+					console.log("@ " + (i + 1) + " @");
+    				console.log("Added on: " + tweets[i].created_at);
 					console.log("Tweet: " + tweets[i].text);
 					console.log("-------------------------------------------------------");
 
@@ -100,23 +100,23 @@ function myTweets() {
   						if (err) {
     						console.log(err);
   						}
-  					});	// end append to file
+  					}); // end append to file
 
-  				}	// end for loop
+  				} // end for loop
 
     			console.log("end of tweets");
     			console.log("===-------------------------------------------------===");
-  			}	// end check tweets availability
-		}	// end if no error statement
-	});	// end client.get
-}	// end function myTweets
+  			} // end check tweets availability
+		} // end if no error statement
+	}); // end client.get
+} // end function myTweets
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // node liri.js spotify-this-song @@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	
 function spotifyThisSong () {
 	// var spotify = require("spotify");
-	// if no song title entered, the default is 
+	// if no song title entered, the default is
 	if (title == "") {
     	title = "the sign";
     }
@@ -135,7 +135,7 @@ function spotifyThisSong () {
     		console.log("===-------------------------------------------------===");
 
     		// displays/appends a separator/title line on external log.txt file. Formatting purposes
-    		var logSearchTitle = "\n\n===- Spotified Song -===" + 
+    		var logSearchTitle = "\n\n===- Spotified Song -===" +
     							 "\n" + "Data retrieved on: " + new Date();
     		fs.appendFile("log.txt", logSearchTitle, function(err) {
   					if (err) {
@@ -146,7 +146,7 @@ function spotifyThisSong () {
     		// display pertinent result searches
     		for (var i=0; i<data.tracks.items.length ; i++) {
 
-    			// verify that song title matches on spotify returned data
+    			// verify that song title matches spotify returned data
     			if (data.tracks.items[i].name.toLowerCase() == title.toLowerCase()) {
 
     				// tracks song matches count from returned list since not all returned match the search
@@ -154,7 +154,7 @@ function spotifyThisSong () {
 
     				// displays data on terminal/bash window
     				console.log("@ " + match + " @");
-    				console.log("Artist(s): " + data.tracks.items[i].artists[0].name); 
+    				console.log("Artist(s): " + data.tracks.items[i].artists[0].name);
 					console.log("Song Name: " + data.tracks.items[i].name);
 					console.log("Preview Link: " + data.tracks.items[i].preview_url);
 					console.log("Album: " + data.tracks.items[i].album.name);
@@ -169,24 +169,24 @@ function spotifyThisSong () {
   						if (err) {
     						console.log(err);
   						}
-  					});	// end append to file
-    			} 
-    		}	// end for loop
+  					}); // end append to file
+    			}
+    		} // end for loop
     		if (match == 0) {
     			console.log("===-------------------------------------------------===");
     			console.log('no song title match found on spotify');
     			console.log("===-------------------------------------------------===");
     		}
-    	}	// end else
-	});	// end spotify search
-}	// end spotify function
+    	} // end else
+	}); // end spotify search
+} // end spotify function
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // node liri.js movie-this @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 function movieThis() {
 	// var request = require("request");
-	// if no movie title entered, the default is 
+	// if no movie title entered, the default is
 	if (title == "") {
 		title = "Mr Nobody";
 	}
@@ -208,7 +208,7 @@ function movieThis() {
 				console.log("===-------------------------------------------------===");
 			} else {
 				console.log("===-------------------------------------------------===");
-    			console.log("movie: " + title);
+    			console.log("movie");
     			console.log("===-------------------------------------------------===");
 				console.log("Title: " + JSON.parse(body).Title);
 				console.log("Year: " + JSON.parse(body).Year);
@@ -221,7 +221,7 @@ function movieThis() {
 				console.log("Rotten Tomatoes URL: " + JSON.parse(body).tomatoURL);
 				console.log("===-------------------------------------------------===");
 
-				// displays/appends data response on external log.txt file				 
+				// displays/appends data response on external log.txt file
 				var logIt = "\n\n===- Movie Search -===" +
 							"\n" + "Data retrieved on: " + new Date() + "," +
 							"\n\n  Title: " + JSON.parse(body).Title + "," +
@@ -233,16 +233,16 @@ function movieThis() {
     						"\n  Actors: " + JSON.parse(body).Actors + "," +
     						"\n  Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating + "," +
     						"\n  Rotten Tomatoes URL: " + JSON.parse(body).tomatoURL + ",";
-    						
+
 				fs.appendFile("log.txt", logIt, function(err) {
   					if (err) {
     					console.log(err);
   					}
-  				});	// end append to file
+  				}); // end append to file
 			} // end movie undefined check
 		}
-	});	// end request module
-}	// end movie function
+	}); // end request module
+} // end movie function
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // node liri.js do-what-it-says @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -263,7 +263,7 @@ function doWhatItSays () {
 			// remove item from array: a command/choice
 			dataArr.splice(0,1);
 			// console.log("choice: " + choice);
-			
+
 			// my-tweets does not have additional search arguments, executed for other two choices/commands
 			if (choice !== "my-tweets") {
 				// title is the movie or song to be searched
@@ -272,12 +272,12 @@ function doWhatItSays () {
 				dataArr.splice(0,1);
 				// console.log("title: " + title);
 			}
-			
+
 			// calls relevant function according to command saved inside choice
 			options();
 		} while (dataArr.length > 0);
 
-	});	// end fs module
-}
+	}); // end fs module
+} // end doWhatItSays function
 
 

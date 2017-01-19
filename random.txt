@@ -1,4 +1,4 @@
-spotify-this-song, I Want it That Way,
-my-tweets,
 movie-this, Mars Attacks,
-movie-this, Serenity
+my-tweets,
+movie-this, Serenity,
+spotify-this-song, Taking You Home
