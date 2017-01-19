@@ -75,8 +75,10 @@ function myTweets() {
     			console.log("my " + tweets.length + " most recent tweets");
     			console.log("===-------------------------------------------------===");
 
-    			// writes a separator/title line on external log file before data
-    			fs.appendFile("log.txt", "\n\n===- My Tweets -===", function(err) {
+    			// displays/appends a separator/title line on external log.txt file. Formatting purposes
+    			var logSearchTitle = "\n\n===- My Tweets -===" + 
+    								 "\n" + "Data retrieved on: " + new Date();
+    			fs.appendFile("log.txt", logSearchTitle, function(err) {
   					if (err) {
     					console.log(err);
   					}
@@ -84,21 +86,24 @@ function myTweets() {
 
     			// display tweets selected info
     			for (var i=0; i<tweets.length ; i++) {
+
+    				// displays data on terminal/bash window
 					console.log("@ " + (i + 1) + " @");	
     				console.log("Added on: " + tweets[i].created_at); 
 					console.log("Tweet: " + tweets[i].text);
 					console.log("-------------------------------------------------------");
 
-					// writing data response on external log text file
+					// displays/appends data response on external log.txt file
 					var logIt = "\n\n" + (i + 1) + " Added on: " + tweets[i].created_at + "," +
 								"\n  Tweet   : " + tweets[i].text + ",";
 					fs.appendFile("log.txt", logIt, function(err) {
   						if (err) {
     						console.log(err);
   						}
-  					});
+  					});	// end append to file
 
   				}	// end for loop
+
     			console.log("end of tweets");
     			console.log("===-------------------------------------------------===");
   			}	// end check tweets availability
@@ -129,8 +134,10 @@ function spotifyThisSong () {
     		console.log("spotify this song: " + title);
     		console.log("===-------------------------------------------------===");
 
-    		// writes a separator/title line on external log file before data
-    		fs.appendFile("log.txt", "\n\n===- Spotified Song -===", function(err) {
+    		// displays/appends a separator/title line on external log.txt file. Formatting purposes
+    		var logSearchTitle = "\n\n===- Spotified Song -===" + 
+    							 "\n" + "Data retrieved on: " + new Date();
+    		fs.appendFile("log.txt", logSearchTitle, function(err) {
   					if (err) {
     					console.log(err);
   					}
@@ -138,9 +145,14 @@ function spotifyThisSong () {
 
     		// display pertinent result searches
     		for (var i=0; i<data.tracks.items.length ; i++) {
+
     			// verify that song title matches on spotify returned data
     			if (data.tracks.items[i].name.toLowerCase() == title.toLowerCase()) {
+
+    				// tracks song matches count from returned list since not all returned match the search
     				match++;
+
+    				// displays data on terminal/bash window
     				console.log("@ " + match + " @");
     				console.log("Artist(s): " + data.tracks.items[i].artists[0].name); 
 					console.log("Song Name: " + data.tracks.items[i].name);
@@ -148,7 +160,7 @@ function spotifyThisSong () {
 					console.log("Album: " + data.tracks.items[i].album.name);
     				console.log("-------------------------------------------------------");
 
-    				// appending/writing data response on external log text file
+    				// displays/appends data response on external log.txt file
     				var logIt = "\n\n" + match + " Artist(s): " + data.tracks.items[i].artists[0].name + "," +
     							"\n  Song Name   : " + data.tracks.items[i].name + "," +
     							"\n  Preview Link: " + data.tracks.items[i].preview_url + "," +
@@ -157,12 +169,12 @@ function spotifyThisSong () {
   						if (err) {
     						console.log(err);
   						}
-  					});
+  					});	// end append to file
     			} 
     		}	// end for loop
     		if (match == 0) {
     			console.log("===-------------------------------------------------===");
-    			console.log("no song title match found on spotify");
+    			console.log('no song title match found on spotify');
     			console.log("===-------------------------------------------------===");
     		}
     	}	// end else
@@ -183,10 +195,13 @@ function movieThis() {
 
 	// run request module
 	request(queryUrl, function(error, response, body) {
+
 		// If there were no errors and the response code was 200 (code for request succesful)
 		if (!error && response.statusCode === 200) {
+
 			// check if title not found. If found displays movie information
 			if (JSON.parse(body).Title == undefined) {
+				// displays data on terminal/bash window
 				console.log("title is: " + title);
 				console.log("===-------------------------------------------------===");
 				console.log("could not find movie information on database");
@@ -206,8 +221,9 @@ function movieThis() {
 				console.log("Rotten Tomatoes URL: " + JSON.parse(body).tomatoURL);
 				console.log("===-------------------------------------------------===");
 
-				// appending/writing data response on external log text file
+				// displays/appends data response on external log.txt file				 
 				var logIt = "\n\n===- Movie Search -===" +
+							"\n" + "Data retrieved on: " + new Date() + "," +
 							"\n\n  Title: " + JSON.parse(body).Title + "," +
 							"\n  Year: " + JSON.parse(body).Year + "," +
 							"\n  Rated: " + JSON.parse(body).Rated + "," +
@@ -216,13 +232,13 @@ function movieThis() {
     						"\n  Plot: " + JSON.parse(body).Plot + "," +
     						"\n  Actors: " + JSON.parse(body).Actors + "," +
     						"\n  Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating + "," +
-    						"\n  Rotten Tomatoes URL: " + JSON.parse(body).tomatoURL + "," +
-    						"\n\n===----------------===" + "\n";
+    						"\n  Rotten Tomatoes URL: " + JSON.parse(body).tomatoURL + ",";
+    						
 				fs.appendFile("log.txt", logIt, function(err) {
   					if (err) {
     					console.log(err);
   					}
-  				});
+  				});	// end append to file
 			} // end movie undefined check
 		}
 	});	// end request module
@@ -231,36 +247,36 @@ function movieThis() {
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 // node liri.js do-what-it-says @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-// reads data from pre-existing text file
+// reads data search info from pre-existing text file named random.txt
 function doWhatItSays () {
 	// run read/write module. Reads data from text file
 	fs.readFile("random.txt", "utf-8", function(error, data) {
-		// splitting data array
+		// splitting returned data array
 		var dataArr = data.split(",");
-		console.log("dataArr: " + dataArr);
-		console.log("array length: " + dataArr.length);
+		// console.log("dataArr: " + dataArr);
+		// console.log("array length: " + dataArr.length);
 
-		// selecting array pair (aka key-value, aka choice: title)
+		// do-while loops over text file contents. Selects array pair (aka key-value -> aka choice: title)
 		do {
-		// if (dataArr.length !== 0) {	
 			// choice is the command to be executed: movie-this, spotify-this-song or my-tweets
-					
-					choice = dataArr[0].trim();
-					dataArr.splice(0,1);
-					console.log("choice: " + choice);
-				
-					if (choice !== "my-tweets") {
-						// title is the movie or song to be searched
-						title = dataArr[0].trim();
-						dataArr.splice(0,1);
-						console.log("title: " + title);
-					}
+			choice = dataArr[0].trim();
+			// remove item from array: a command/choice
+			dataArr.splice(0,1);
+			// console.log("choice: " + choice);
 			
-			// calls relevant function according to command
+			// my-tweets does not have additional search arguments, executed for other two choices/commands
+			if (choice !== "my-tweets") {
+				// title is the movie or song to be searched
+				title = dataArr[0].trim();
+				// remove item from array: a song or movie title
+				dataArr.splice(0,1);
+				// console.log("title: " + title);
+			}
+			
+			// calls relevant function according to command saved inside choice
 			options();
 		} while (dataArr.length > 0);
 
-	
 	});	// end fs module
 }
 
