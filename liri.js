@@ -58,7 +58,7 @@ function myTweets() {
 		// tweets search set to specific twitter user screen name
 		screen_name: 'jwongc',
 		// limits max tweets retrieved to 20
-		count: 2
+		count: 20
 	}
 
 	// run tweeter module passing search parameter defined above in variable params
